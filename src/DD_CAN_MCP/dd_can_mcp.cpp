@@ -24,6 +24,7 @@ void dd_can_setup()
     Serial.println("Error Initializing MCP2515...");
   // Change to normal mode to allow messages to be transmitted
   CAN0.setMode(MCP_NORMAL);
+  
   // Configuring pin for /INT input (optional)
   pinMode(CAN0_INT, INPUT);
 

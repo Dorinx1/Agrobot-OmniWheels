@@ -33,7 +33,6 @@ void setup()
   dd__stering_setup(); 
   #endif
 
-
 }
 
 /*Enter in loop*/
