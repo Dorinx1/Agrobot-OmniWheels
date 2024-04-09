@@ -5,8 +5,8 @@
 #define ENA 5 
 
 /*Declare Function*/
-void dd_setup_stering();
-void dd_loop_stering();
+void dd_stering_setup();
+void dd_stering_loop();
 void _ENA_Interupts();
 void _Starting_Position_Stering();
 uint8_t _Stering_Left();

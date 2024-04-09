@@ -20,8 +20,18 @@ int16_t print_rec_cnt = CAN_PRINT_REC;
 /*Declare Setup*/
 void setup() 
 {
+  /*Initialization Serial begin just one time*/
   Serial.begin(9600);
+
+  #ifdef USE_CAN_SETUP
   dd_can_setup(); 
+  #endif
+
+  #ifdef USE_STERING_SETUP
+  dd__stering_setup(); 
+  #endif
+
+
 }
 
 /*Enter in loop*/

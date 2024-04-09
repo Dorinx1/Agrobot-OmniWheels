@@ -26,7 +26,7 @@ Angle P1 = {0,90,180};
 Servo myServo;                         // Servo type variable
 
 /*Write Function*/
-void dd_setup_stering() {
+void dd_stering_setup() {
   pinMode(ENA,OUTPUT);
 
   myServo.attach(servoPin);             // Attach the servo to the pin
@@ -34,7 +34,7 @@ void dd_setup_stering() {
   _Starting_Position_Stering();         //attach starting position to 90 degree for potentiometre 
 }
 
-void dd_loop_stering()
+void dd_stering_loop()
 {
   command = Serial.read(); // Citeste caracterul de la portul serial
 
