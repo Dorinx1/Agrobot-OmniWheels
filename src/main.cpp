@@ -4,6 +4,8 @@
 /*Private include (library) */
 #include "DD_CAN_MCP/dd_can_mcp.h"
 #include "DD_STERING/dd_stering.h"
+#include "CTRL_Steering/ctrl_steering.h"
+
 
 /*Private define*/
 #define SYS_TICK 1
@@ -12,12 +14,14 @@
 #define CAN_RECV_REC (1 / SYS_TICK)
 #define CAN_PRINT_REC (2000/SYS_TICK)  //is not used
 #define STERING_PRINT_REC (100/SYS_TICK)
+#define STERING_SET_POW_REC (200/SYS_TICK)
 
 /*Private variable*/
 int16_t send_rec_cnt = CAN_SEND_REC;
 int8_t recv_rec_cnt = CAN_RECV_REC;
 int16_t print_rec_cnt = CAN_PRINT_REC;
 int32_t stering_rec_cnt = STERING_PRINT_REC;
+uint16_t stering_setPower_rec_cnt = STERING_SET_POW_REC;
 
 /*Declare Setup*/
 void setup() 
@@ -32,7 +36,6 @@ void setup()
   #ifdef USE_STERING_SETUP
   dd__stering_setup(); 
   #endif
-
 }
 
 /*Enter in loop*/
@@ -54,6 +57,12 @@ void loop()
   {// send data per 0,10 ms
     dd_stering_loop();
     stering_rec_cnt = STERING_PRINT_REC;
+  }
+
+  if (--stering_setPower_rec_cnt <=0)
+  {
+    ctrl_steering_loop();
+    stering_setPower_rec_cnt = STERING_SET_POW_REC;
   }
 
 }  
