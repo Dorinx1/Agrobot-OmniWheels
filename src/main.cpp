@@ -3,25 +3,22 @@
 
 /*Private include (library) */
 #include "DD_CAN_MCP/dd_can_mcp.h"
-#include "DD_STERING/dd_stering.h"
 #include "CTRL_Steering/ctrl_steering.h"
 
-
+ 
 /*Private define*/
 #define SYS_TICK 1
 
-#define CAN_SEND_REC (5000 / SYS_TICK)
+#define CAN_SEND_REC (1000 / SYS_TICK)
 #define CAN_RECV_REC (1 / SYS_TICK)
 #define CAN_PRINT_REC (2000/SYS_TICK)  //is not used
-#define STERING_PRINT_REC (100/SYS_TICK)
-#define STERING_SET_POW_REC (200/SYS_TICK)
+#define CTRL_STEERING_REC (10 / SYS_TICK)
 
 /*Private variable*/
 int16_t send_rec_cnt = CAN_SEND_REC;
 int8_t recv_rec_cnt = CAN_RECV_REC;
 int16_t print_rec_cnt = CAN_PRINT_REC;
-int32_t stering_rec_cnt = STERING_PRINT_REC;
-uint16_t stering_setPower_rec_cnt = STERING_SET_POW_REC;
+int16_t ctrl_steering_cnt = CTRL_STEERING_REC;
 
 /*Declare Setup*/
 void setup() 
@@ -33,36 +30,30 @@ void setup()
   dd_can_setup(); 
   #endif
 
-  #ifdef USE_STERING_SETUP
-  dd__stering_setup(); 
+  #ifdef USE_CTRL_STEERING_SETUP
+  ctrl_steering_setup();
   #endif
 }
 
 /*Enter in loop*/
 void loop()
 {
-   if (--send_rec_cnt <= 0 )            // algorit to transmite data pe  ( X )ms 
+   if (--send_rec_cnt <= 0)            // algorit to transmite data pe  ( X )ms 
   {// send data per 50ms
     dd_can_send_loop();
     send_rec_cnt = CAN_SEND_REC;
   }
 
   if (--recv_rec_cnt <= 0)
-  { // Send data per 0,01 ms
+  { // receive data per 0,01 ms
     dd_can_recv_loop();
     recv_rec_cnt = CAN_RECV_REC;
   }
 
-  if (--stering_rec_cnt <=0)
-  {// send data per 0,10 ms
-    dd_stering_loop();
-    stering_rec_cnt = STERING_PRINT_REC;
-  }
-
-  if (--stering_setPower_rec_cnt <=0)
+  if (--ctrl_steering_cnt <= 0)  
   {
     ctrl_steering_loop();
-    stering_setPower_rec_cnt = STERING_SET_POW_REC;
+    ctrl_steering_cnt = CTRL_STEERING_REC;
   }
 
 }  
